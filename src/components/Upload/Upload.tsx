@@ -1,5 +1,5 @@
-import { $, sync$, component$, useSignal } from "@builder.io/qwik";
-
+import { $, sync$, component$, useContext } from "@builder.io/qwik";
+import { StoreContext } from "~/utils/store";
 export interface UploadProps {
 
 }
@@ -10,7 +10,7 @@ export interface UploadProps {
      * Since sync$ event handlers can't access state, we pass
      * out the file data using the `data-preview-src` attribute.
      */
-const fileDropHandler = sync$(
+const syncFileDropHandler = sync$(
     (ev: DragEvent, target: HTMLElement) => {
         ev.preventDefault();
 
@@ -37,11 +37,10 @@ const fileDropHandler = sync$(
 );
 
 export const Upload = component$<UploadProps>(() => {
-    const imageSrc = useSignal("");
 
     // Drag over needs to be defined for drop to fire.
     const onDragOver = $(() => {});
-    
+    const imageSrc = useContext(StoreContext);
     return (
         <>
             <img src={imageSrc.value} width={200} height={200} />
@@ -50,13 +49,13 @@ export const Upload = component$<UploadProps>(() => {
                 preventdefault:dragover
                 data-preview-src={imageSrc.value}
                 onDrop$={[
-                    fileDropHandler,
+                    syncFileDropHandler,
                     /**
                      * Runs after the sync$ event handler.
                      * At this stage the attribute is updated so we can
                      * update the previews image src.
                      */
-                    $((ev, target) => {
+                    $(function asyncFileDropHandler(ev, target) {
                         imageSrc.value = target.getAttribute("data-preview-src")!;
                     })
                 ]}
