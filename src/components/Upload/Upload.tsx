@@ -43,7 +43,7 @@ export const Upload = component$<UploadProps>(() => {
     const imageSrc = useContext(StoreContext);
     return (
         <>
-            <img src={imageSrc.value} width={200} height={200} />
+            <img class="border border-slate-400" src={imageSrc.value} width={375} height={300} />
             <div
                 /** https://qwik.dev/tutorial/events/preventdefault/ */
                 preventdefault:dragover
@@ -60,7 +60,7 @@ export const Upload = component$<UploadProps>(() => {
                     })
                 ]}
                 onDragOver$={onDragOver}
-                class="w-48 h-28 border-dotted border">
+                class="w-48 h-28 border-dotted border border-slate-400">
                 Upload
             </div>
         </>
