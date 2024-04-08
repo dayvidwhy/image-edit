@@ -8,9 +8,13 @@ export default component$(() => {
     const imageSrc = useSignal("");
     useContextProvider(StoreContext, imageSrc);
     return (
-        <div class="container mx-auto">
-            <Canvas />
-            <Upload />
+        <div class="container mx-auto flex flex-col mt-4">
+            <div class="mt-2">
+                <Canvas />
+            </div>
+            <div class="mt-2">
+                <Upload />
+            </div>
         </div>
     );
 });

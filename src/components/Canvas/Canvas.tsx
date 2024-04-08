@@ -23,7 +23,12 @@ export const Canvas = component$<CanvasProps>(() => {
         img.src = imageSrc.value;
     });
     return (
-        <div>
+        <div class="flex justify-between border border-slate-400">
+            <div class="w-full flex flex-col justify-center">
+                <h2 class="text-2xl text-center w-full">
+                    Edit your image here
+                </h2>
+            </div>
             <canvas class="border border-slate-400" ref={canvasRef} width={375} height={300} />
         </div>
     );
