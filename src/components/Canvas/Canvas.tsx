@@ -1,4 +1,4 @@
-import { component$, useContext, useSignal, useTask$ } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal, useTask$ } from "@builder.io/qwik";
 import { StoreContext } from "~/utils/store";
 import { isServer } from "@builder.io/qwik/build";
 
@@ -22,12 +22,36 @@ export const Canvas = component$<CanvasProps>(() => {
         };
         img.src = imageSrc.value;
     });
+
+    const downloadImage = $(() => {
+        console.log("download image");
+        canvasRef.value?.toBlob(((blob): void  => {
+            if (!blob) {
+                return;
+            }
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "";
+            a.click();
+            URL.revokeObjectURL(url);
+        }));
+    });
+
     return (
         <div class="flex justify-between border border-slate-400">
             <div class="w-full flex flex-col justify-center">
                 <h2 class="text-2xl text-center w-full">
                     Edit your image here
                 </h2>
+                <div class="flex justify-center mt-2">
+                    <button
+                        preventdefault:click
+                        onClick$={downloadImage}
+                        class="w-fit px-2 text-lg border border-slate-400 hover:bg-slate-600 hover:text-slate-50">
+                        Download
+                    </button>
+                </div>
             </div>
             <canvas class="border border-slate-400" ref={canvasRef} width={375} height={300} />
         </div>
