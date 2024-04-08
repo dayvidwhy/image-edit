@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "image-edit",
+  "short_name": "In browser image editing.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "In browser image editing."
+}
