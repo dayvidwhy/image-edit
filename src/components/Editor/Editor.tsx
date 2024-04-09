@@ -39,7 +39,6 @@ export const Editor = component$(() => {
         if (drawing.value) {
             previousX.value = currentX.value;
             previousY.value = currentY.value;
-            // console.log(editorRef.value.scrollLeft, editorRef.value.scrollTop);
             currentX.value = event.clientX - canvasRef.value.offsetLeft + editorRef.value.scrollLeft;
             currentY.value = event.clientY - canvasRef.value.offsetTop + editorRef.value.scrollTop;
                 
@@ -63,20 +62,23 @@ export const Editor = component$(() => {
         const img = new Image();
         img.onload = () => {
             const ctx = canvasRef.value.getContext("2d");
-            imageWidth.value = img.width.toString();
-            imageHeight.value = img.height.toString();
-            ctx?.drawImage(img, 0, 0, +imageWidth.value, +imageHeight.value);
+            imageWidth.value = img.width;
+            imageHeight.value = img.height;
+            canvasRef.value.width = imageWidth.value;
+            canvasRef.value.height = imageHeight.value;
+            requestAnimationFrame(() => {
+                ctx?.drawImage(img, 0, 0, imageWidth.value, imageHeight.value);
+            });
         };
         img.src = imageSrc.value;
-        console.log(imageHeight.value);
     });
 
     return (
         <canvas
             class="border border-slate-400 cursor-crosshair"
             ref={canvasRef}
-            width={+imageWidth.value}
-            height={+imageHeight.value}
+            width={imageWidth.value}
+            height={imageHeight.value}
             preventdefault:mouseup
             onMouseUp$={stopDrawing}
             preventdefault:mouseout

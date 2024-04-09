@@ -21,14 +21,6 @@ const syncFileDropHandler = sync$(
                 target.setAttribute("data-preview-src", imageUrl);
                 const fileData = item.getAsFile();
                 console.log(file, item, fileData);
-
-                // get image dimensions
-                const img = new Image();
-                img.onload = function() {
-                    target.setAttribute("data-preview-width", img.width + "");
-                    target.setAttribute("data-preview-height", img.height + "");
-                };
-                img.src = imageUrl;
             }
         } else if (ev.dataTransfer?.files) {
             // Otherwise use DataTransfer interface
@@ -48,7 +40,7 @@ export const Uploader = component$(() => {
     const onDragLeave = $(() => {
         fileDraggedOver.value = false;
     });
-    const { imageSrc, imageHeight, imageWidth } = useContext(StoreContext);
+    const { imageSrc } = useContext(StoreContext);
     return (
         <div
             /** https://qwik.dev/tutorial/events/preventdefault/ */
@@ -62,8 +54,6 @@ export const Uploader = component$(() => {
                  * update the previews image src.
                  */
                 $(function asyncFileDropHandler(ev, target) {
-                    imageHeight.value = target.getAttribute("data-preview-height")!;
-                    imageWidth.value = target.getAttribute("data-preview-width")!;
                     imageSrc.value = target.getAttribute("data-preview-src")!;
                     fileDraggedOver.value = false;
                 })

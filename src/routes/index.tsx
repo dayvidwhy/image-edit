@@ -9,8 +9,8 @@ export default component$(() => {
     const editorRef = useSignal<HTMLDivElement>();
     useContextProvider(StoreContext, {
         imageSrc: useSignal(""),
-        imageWidth: useSignal(""),
-        imageHeight: useSignal(""),
+        imageWidth: useSignal(0),
+        imageHeight: useSignal(0),
         strokeSize: useSignal(10),
         strokeColor: useSignal("#000"),
         canvasRef: useSignal(),
