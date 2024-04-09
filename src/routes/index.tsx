@@ -24,7 +24,7 @@ export default component$(() => {
                     <Uploader />
                 </div>
             </div>
-            <div ref={editorRef} class="flex-1 overflow-auto">
+            <div ref={editorRef} class="flex-1 overflow-auto bg-slate-100">
                 <div class="mt-2 ml-2">
                     <Editor />
                 </div>

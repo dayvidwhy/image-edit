@@ -75,7 +75,7 @@ export const Editor = component$(() => {
 
     return (
         <canvas
-            class="border border-slate-400 cursor-crosshair"
+            class="border border-slate-400 cursor-crosshair shadow-xl"
             ref={canvasRef}
             width={imageWidth.value}
             height={imageHeight.value}
