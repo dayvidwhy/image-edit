@@ -8,6 +8,7 @@ export const StoreContext = createContextId<{
     strokeSize: Signal<number>;
     strokeColor: Signal<string>;
     canvasRef: Signal<HTMLCanvasElement>;
+    editorRef: Signal<HTMLDivElement>;
 }>(
     "StoreContext"
 );

@@ -3,7 +3,7 @@ import { StoreContext } from "~/utils/store";
 import { isServer } from "@builder.io/qwik/build";
 
 export const Editor = component$(() => {
-    const { imageSrc, imageWidth, imageHeight, strokeColor, strokeSize, canvasRef } = useContext(StoreContext);
+    const { imageSrc, imageWidth, imageHeight, strokeColor, strokeSize, canvasRef, editorRef } = useContext(StoreContext);
 
     // whether we are currently drawing
     const drawing = useSignal<boolean>(false);
@@ -16,13 +16,12 @@ export const Editor = component$(() => {
 
     // Toggle on drawing
     const startDrawing = $((event: MouseEvent) => {
-        if (!canvasRef.value) return;
         previousX.value = currentX.value;
         previousY.value = currentY.value;
 
         // work out mouse position
-        currentX.value = event.clientX - canvasRef.value.offsetLeft;
-        currentY.value = event.clientY - canvasRef.value.offsetTop;
+        currentX.value = event.clientX - canvasRef.value.offsetLeft + editorRef.value.scrollLeft;
+        currentY.value = event.clientY - canvasRef.value.offsetTop + editorRef.value.scrollTop;
     
         // start drawing
         drawing.value = true;
@@ -33,7 +32,6 @@ export const Editor = component$(() => {
 
     // Draw lines
     const handleDrawing = $((event: MouseEvent): void => {
-        if (!canvasRef.value) return;
         const canvasContext = canvasRef.value.getContext("2d");
         if (!canvasContext) return;
 
@@ -41,8 +39,9 @@ export const Editor = component$(() => {
         if (drawing.value) {
             previousX.value = currentX.value;
             previousY.value = currentY.value;
-            currentX.value = event.clientX - canvasRef.value.offsetLeft;
-            currentY.value = event.clientY - canvasRef.value.offsetTop;
+            // console.log(editorRef.value.scrollLeft, editorRef.value.scrollTop);
+            currentX.value = event.clientX - canvasRef.value.offsetLeft + editorRef.value.scrollLeft;
+            currentY.value = event.clientY - canvasRef.value.offsetTop + editorRef.value.scrollTop;
                 
             // draw
             canvasContext.beginPath();
@@ -63,7 +62,7 @@ export const Editor = component$(() => {
         }
         const img = new Image();
         img.onload = () => {
-            const ctx = canvasRef.value?.getContext("2d");
+            const ctx = canvasRef.value.getContext("2d");
             imageWidth.value = img.width.toString();
             imageHeight.value = img.height.toString();
             ctx?.drawImage(img, 0, 0, +imageWidth.value, +imageHeight.value);

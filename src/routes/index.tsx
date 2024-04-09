@@ -6,13 +6,15 @@ import { Controls } from "../components/Controls/Controls";
 import { StoreContext } from "../utils/store";
 
 export default component$(() => {
+    const editorRef = useSignal<HTMLDivElement>();
     useContextProvider(StoreContext, {
         imageSrc: useSignal(""),
         imageWidth: useSignal(""),
         imageHeight: useSignal(""),
         strokeSize: useSignal(10),
         strokeColor: useSignal("#000"),
-        canvasRef: useSignal()
+        canvasRef: useSignal(),
+        editorRef
     });
     return (
         <div class="flex flex-row h-full">
@@ -20,7 +22,7 @@ export default component$(() => {
                 <Controls />
                 <Uploader />
             </div>
-            <div class="flex-1 overflow-auto">
+            <div ref={editorRef} class="flex-1 overflow-auto">
                 <div class="mt-2">
                     <Editor />
                 </div>
