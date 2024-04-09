@@ -1,8 +1,5 @@
-import { $, sync$, component$, useContext } from "@builder.io/qwik";
+import { $, sync$, component$, useContext, useSignal } from "@builder.io/qwik";
 import { StoreContext } from "~/utils/store";
-export interface UploadProps {
-
-}
 
 /**
      * https://qwik.dev/tutorial/events/synchronous-sync/
@@ -33,9 +30,15 @@ const syncFileDropHandler = sync$(
     }
 );
 
-export const Uploader = component$<UploadProps>(() => {
+export const Uploader = component$(() => {
     // Drag over needs to be defined for drop to fire.
-    const onDragOver = $(() => {});
+    const fileDraggedOver = useSignal<boolean>(false);
+    const onDragOver = $(() => {
+        fileDraggedOver.value = true;
+    });
+    const onDragLeave = $(() => {
+        fileDraggedOver.value = false;
+    });
     const imageSrc = useContext(StoreContext);
     return (
         <div class="w-full flex justify-between">
@@ -52,13 +55,25 @@ export const Uploader = component$<UploadProps>(() => {
                          */
                     $(function asyncFileDropHandler(ev, target) {
                         imageSrc.value = target.getAttribute("data-preview-src")!;
+                        fileDraggedOver.value = false;
                     })
                 ]}
                 onDragOver$={onDragOver}
-                class="w-full border border-slate-400 p-2 flex flex-col justify-center">
-                <h2 class="text-2xl text-center">
-                        Drop an image here to edit
-                </h2>
+                onDragLeave$={onDragLeave}
+                class={`
+                    rounded
+                    w-full
+                    border-2 border-slate-400
+                    px-2 py-8
+                    flex flex-col justify-center
+                    ${fileDraggedOver.value ? "border-dashed bg-slate-200" : ""}
+                `}
+            >
+                <p class="text-2xl text-center">
+                    {
+                        `${fileDraggedOver.value ? "Drop your image here!" : "Drag an image here to edit"}`
+                    }
+                </p>
             </div>
         </div>
     );

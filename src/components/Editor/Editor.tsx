@@ -92,8 +92,8 @@ export const Editor = component$(() => {
     });
 
     return (
-        <div class="flex justify-between border border-slate-400">
-            <div class="w-full flex flex-col justify-center">
+        <div class="flex justify-between">
+            <div class="w-full flex flex-col justify-center border border-slate-400 mr-2">
                 <h2 class="text-2xl text-center w-full">
                     Edit your image here
                 </h2>
