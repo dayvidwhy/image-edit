@@ -33,7 +33,7 @@ const syncFileDropHandler = sync$(
     }
 );
 
-export const Upload = component$<UploadProps>(() => {
+export const Uploader = component$<UploadProps>(() => {
     // Drag over needs to be defined for drop to fire.
     const onDragOver = $(() => {});
     const imageSrc = useContext(StoreContext);
@@ -60,7 +60,6 @@ export const Upload = component$<UploadProps>(() => {
                         Drop an image here to edit
                 </h2>
             </div>
-            <img class="border border-slate-400 block" src={imageSrc.value} width={375} height={300} />
         </div>
     );
 });

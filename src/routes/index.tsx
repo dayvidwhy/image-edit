@@ -1,7 +1,7 @@
 import { component$, useContextProvider, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { Canvas } from "../components/Canvas/Canvas";
-import { Upload } from "../components/Upload/Upload";
+import { Editor } from "../components/Editor/Editor";
+import { Uploader } from "../components/Uploader/Uploader";
 import { StoreContext } from "../utils/store";
 
 export default component$(() => {
@@ -10,10 +10,10 @@ export default component$(() => {
     return (
         <div class="container mx-auto flex flex-col mt-4">
             <div class="mt-2">
-                <Canvas />
+                <Editor />
             </div>
             <div class="mt-2">
-                <Upload />
+                <Uploader />
             </div>
         </div>
     );
