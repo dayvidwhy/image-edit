@@ -57,10 +57,10 @@ export const Uploader = component$(() => {
             onDrop$={[
                 syncFileDropHandler,
                 /**
-                         * Runs after the sync$ event handler.
-                         * At this stage the attribute is updated so we can
-                         * update the previews image src.
-                         */
+                 * Runs after the sync$ event handler.
+                 * At this stage the attribute is updated so we can
+                 * update the previews image src.
+                 */
                 $(function asyncFileDropHandler(ev, target) {
                     imageHeight.value = target.getAttribute("data-preview-height")!;
                     imageWidth.value = target.getAttribute("data-preview-width")!;
@@ -80,7 +80,10 @@ export const Uploader = component$(() => {
         >
             <p class="text-lg text-center text-slate-600">
                 {
-                    `${fileDraggedOver.value ? "Drop your image here!" : "Drag an image here to edit"}`
+                    `${fileDraggedOver.value ? 
+                        "Drop your image here!" : 
+                        "Drag an image here to edit"
+                    }`
                 }
             </p>
         </div>
