@@ -57,44 +57,40 @@ export const Controls = component$(() => {
             action: resetImage
         },
         {
-            label: "Download",
-            action: downloadImage
-        },
-        {
             label: "Grayscale",
-            action: $(() => {
-                applyEffect("grayscale(100%)");
-            })
+            action: $(() => applyEffect("grayscale(100%)"))
         },
         {
             label: "Blur",
-            action: $(() => {
-                applyEffect("blur(4px)");
-            })
+            action: $(() => applyEffect("blur(4px)"))
         },
         {
             label: "Invert",
-            action: $(() => {
-                applyEffect("invert(100%)");
-            })
+            action: $(() => applyEffect("invert(100%)"))
         },
         {
             label: "Contrast",
-            action: $(() => {
-                applyEffect("contrast(200%)");
-            })
+            action: $(() => applyEffect("contrast(200%)"))
         },
         {
             label: "Darken",
-            action: $(() => {
-                applyEffect("brightness(0.4)");
-            })
+            action: $(() => applyEffect("brightness(0.4)"))
         },
         {
             label: "Brighten",
-            action: $(() => {
-                applyEffect("brightness(1.6)");
-            })
+            action: $(() => applyEffect("brightness(1.6)"))
+        },
+        {
+            label: "Hue",
+            action: $(() => applyEffect("hue-rotate(90deg)"))
+        },
+        {
+            label: "Sepia",
+            action: $(() => applyEffect("sepia(100%)"))
+        },
+        {
+            label: "Saturate",
+            action: $(() => applyEffect("saturate(200%)"))
         }
     ];
 
@@ -103,15 +99,15 @@ export const Controls = component$(() => {
             <h3 class="text-lg mx-1">
                 Controls
             </h3>
-            <div class="flex py-1 mx-1 border-b border-slate-400">
-                <label for="strokeSize" class="text-xs w-1/2">
+            <div class="flex py-1 border-y border-slate-400">
+                <label for="strokeSize" class="text-xs w-1/2 mx-1">
                     Stroke Size
                 </label>
                 <input
                     type="range"
                     min="1"
                     max="100"
-                    class="w-1/2"
+                    class="w-1/2 mx-1"
                     name="strokeSize"
                     value={strokeSize.value}
                     onChange$={$((event: Event) => {
@@ -119,24 +115,27 @@ export const Controls = component$(() => {
                         strokeSize.value = parseInt(target.value);
                     })} />
             </div>
-            <div class="flex py-1 mx-1 border-b border-slate-400">
-                <label for="strokeColor" class="text-xs w-1/2">
+            <div class="flex py-1 border-b border-slate-400">
+                <label for="strokeColor" class="text-xs w-1/2 mx-1">
                     Stroke Color
                 </label>
                 <input
                     type="color"
                     name="strokeColor"
-                    class="w-1/2"
+                    class="w-1/2 mx-1"
                     value={strokeColor.value}
                     onChange$={$((event: Event) => {
                         const target = event.target as HTMLInputElement;
                         strokeColor.value = target.value;
                     })} />
             </div>
-            <div class="flex flex-row flex-wrap">
+            <h3 class="text-xs mx-1 pt-1">
+                Effects
+            </h3>
+            <div class="flex flex-row flex-wrap border-b border-slate-400 pb-1">
                 {controlButtons.map((button, index) => {
                     return (
-                        <div class="w-1/2 px-1 mt-1" key={index}>
+                        <div class="w-1/2 px-1 mb-1" key={index}>
                             <button
                                 preventdefault:click
                                 onClick$={button.action}
@@ -146,6 +145,14 @@ export const Controls = component$(() => {
                         </div>
                     );
                 })}
+            </div>
+            <div class="w-full px-1 mt-1">
+                <button
+                    preventdefault:click
+                    onClick$={downloadImage}
+                    class="w-full px-2 text-xs border border-slate-400 hover:bg-slate-600 hover:text-slate-50 transition-all">
+                    Download
+                </button>
             </div>
             <canvas
                 ref={copyCanvasRef}
