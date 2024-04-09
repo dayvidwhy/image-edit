@@ -20,7 +20,9 @@ export default component$(() => {
         <div class="flex flex-row h-full">
             <div class="w-48 mr-2 overflow-y-auto border-r border-slate-400">
                 <Controls />
-                <Uploader />
+                <div class="mx-2">
+                    <Uploader />
+                </div>
             </div>
             <div ref={editorRef} class="flex-1 overflow-auto">
                 <div class="mt-2">

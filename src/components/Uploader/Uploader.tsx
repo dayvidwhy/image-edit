@@ -78,7 +78,7 @@ export const Uploader = component$(() => {
                     ${fileDraggedOver.value ? "border-dashed border-2 bg-slate-200" : ""}
                 `}
         >
-            <p class="text-2xl text-center text-slate-600">
+            <p class="text-lg text-center text-slate-600">
                 {
                     `${fileDraggedOver.value ? "Drop your image here!" : "Drag an image here to edit"}`
                 }

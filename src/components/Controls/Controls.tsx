@@ -20,12 +20,12 @@ export const Controls = component$(() => {
     });
 
     return (
-        <div class="flex flex-col w-full border border-slate-400 p-2 text-slate-600">
-            <h3 class="text-2xl">
+        <div class="flex flex-col w-full p-2 text-slate-600">
+            <h3 class="text-lg mx-1">
                     Controls
             </h3>
-            <div class="flex pt-2">
-                <label for="strokeSize" class="flex justify-between text-sm w-1/2">
+            <div class="flex py-1 mx-1 border-b border-slate-400">
+                <label for="strokeSize" class="text-sm w-1/2">
                         Stroke Size
                 </label>
                 <input
@@ -40,8 +40,8 @@ export const Controls = component$(() => {
                         strokeSize.value = parseInt(target.value);
                     })} />
             </div>
-            <div class="flex pt-2">
-                <label for="strokeColor" class="flex justify-between text-sm w-1/2">
+            <div class="flex py-1 mx-1 border-b border-slate-400">
+                <label for="strokeColor" class="text-sm w-1/2">
                     Stroke Color
                 </label>
                 <input
@@ -57,7 +57,7 @@ export const Controls = component$(() => {
             <button
                 preventdefault:click
                 onClick$={downloadImage}
-                class="w-fit mt-2 px-2 text-lg border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
+                class="w-full mt-2 px-2 text-md border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
                     Download
             </button>
         </div>
