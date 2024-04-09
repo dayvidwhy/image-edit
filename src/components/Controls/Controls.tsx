@@ -51,14 +51,61 @@ export const Controls = component$(() => {
         ctx.filter = "none";
     });
 
+    const controlButtons = [
+        {
+            label: "Reset",
+            action: resetImage
+        },
+        {
+            label: "Download",
+            action: downloadImage
+        },
+        {
+            label: "Grayscale",
+            action: $(() => {
+                applyEffect("grayscale(100%)");
+            })
+        },
+        {
+            label: "Blur",
+            action: $(() => {
+                applyEffect("blur(4px)");
+            })
+        },
+        {
+            label: "Invert",
+            action: $(() => {
+                applyEffect("invert(100%)");
+            })
+        },
+        {
+            label: "Contrast",
+            action: $(() => {
+                applyEffect("contrast(200%)");
+            })
+        },
+        {
+            label: "Darken",
+            action: $(() => {
+                applyEffect("brightness(0.4)");
+            })
+        },
+        {
+            label: "Brighten",
+            action: $(() => {
+                applyEffect("brightness(1.6)");
+            })
+        }
+    ];
+
     return (
         <div class="flex flex-col w-full p-2 text-slate-600">
             <h3 class="text-lg mx-1">
-                    Controls
+                Controls
             </h3>
             <div class="flex py-1 mx-1 border-b border-slate-400">
-                <label for="strokeSize" class="text-sm w-1/2">
-                        Stroke Size
+                <label for="strokeSize" class="text-xs w-1/2">
+                    Stroke Size
                 </label>
                 <input
                     type="range"
@@ -73,7 +120,7 @@ export const Controls = component$(() => {
                     })} />
             </div>
             <div class="flex py-1 mx-1 border-b border-slate-400">
-                <label for="strokeColor" class="text-sm w-1/2">
+                <label for="strokeColor" class="text-xs w-1/2">
                     Stroke Color
                 </label>
                 <input
@@ -86,73 +133,19 @@ export const Controls = component$(() => {
                         strokeColor.value = target.value;
                     })} />
             </div>
-            <div class="flex flex-row w-full mt-2 justify-between">
-                <button
-                    preventdefault:click
-                    onClick$={resetImage}
-                    class="w-1/2 mt-1 px-2 mr-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Reset
-                </button>
-                <button
-                    preventdefault:click
-                    onClick$={downloadImage}
-                    class="w-1/2 mt-1 px-2 ml-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Download
-                </button>
-            </div>
-            <div class="flex flex-row w-full mt-2 justify-between">
-                <button
-                    preventdefault:click
-                    onClick$={$(() => {
-                        applyEffect("grayscale(100%)");
-                    })}
-                    class="w-1/2 mt-1 px-2 mr-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Grayscale
-                </button>
-                <button
-                    preventdefault:click
-                    onClick$={$(() => {
-                        applyEffect("blur(4px)");
-                    })}
-                    class="w-1/2 mt-1 px-2 ml-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Blur
-                </button>
-            </div>
-            <div class="flex flex-row w-full mt-2 justify-between">
-                <button
-                    preventdefault:click
-                    onClick$={$(() => {
-                        applyEffect("invert(100%)");
-                    })}
-                    class="w-1/2 mt-1 px-2 mr-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Invert
-                </button>
-                <button
-                    preventdefault:click
-                    onClick$={$(() => {
-                        applyEffect("contrast(200%)");
-                    })}
-                    class="w-1/2 mt-1 px-2 ml-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Contrast
-                </button>
-            </div>
-            <div class="flex flex-row w-full mt-2 justify-between border-b border-slate-400 pb-2">
-                <button
-                    preventdefault:click
-                    onClick$={$(() => {
-                        applyEffect("brightness(0.4)");
-                    })}
-                    class="w-1/2 mt-1 px-2 mr-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Darken
-                </button>
-                <button
-                    preventdefault:click
-                    onClick$={$(() => {
-                        applyEffect("brightness(1.6)");
-                    })}
-                    class="w-1/2 mt-1 px-2 ml-1 text-sm border rounded border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Brighten
-                </button>
+            <div class="flex flex-row flex-wrap">
+                {controlButtons.map((button, index) => {
+                    return (
+                        <div class="w-1/2 px-1 mt-1" key={index}>
+                            <button
+                                preventdefault:click
+                                onClick$={button.action}
+                                class="w-full px-2 text-xs border border-slate-400 hover:bg-slate-600 hover:text-slate-50 transition-all">
+                                {button.label}
+                            </button>
+                        </div>
+                    );
+                })}
             </div>
             <canvas
                 ref={copyCanvasRef}
