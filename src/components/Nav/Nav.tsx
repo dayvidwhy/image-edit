@@ -13,7 +13,7 @@ export const Nav = component$(() => {
             <ul class="flex">
                 {routes.map((route, index) => (
                     <li key={index} class="border-b-2 border-slate-500">
-                        <a class="block py-3 px-2 text-slate-50 hover:bg-slate-400" href={route.path}>{route.name}</a>
+                        <a class="block py-2 px-2 text-slate-50 hover:bg-slate-400" href={route.path}>{route.name}</a>
                     </li>
                 ))}
             </ul>

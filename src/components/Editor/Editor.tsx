@@ -3,14 +3,7 @@ import { StoreContext } from "~/utils/store";
 import { isServer } from "@builder.io/qwik/build";
 
 export const Editor = component$(() => {
-    const imageSrc = useContext(StoreContext);
-
-    // canvas reference
-    const canvasRef = useSignal<HTMLCanvasElement>();
-
-    // drawing style
-    const strokeColor = useSignal("#000");
-    const strokeSize = useSignal(10);
+    const { imageSrc, imageWidth, imageHeight, strokeColor, strokeSize, canvasRef } = useContext(StoreContext);
 
     // whether we are currently drawing
     const drawing = useSignal<boolean>(false);
@@ -71,55 +64,28 @@ export const Editor = component$(() => {
         const img = new Image();
         img.onload = () => {
             const ctx = canvasRef.value?.getContext("2d");
-            ctx?.drawImage(img, 0, 0, 375, 300);
+            imageWidth.value = img.width.toString();
+            imageHeight.value = img.height.toString();
+            ctx?.drawImage(img, 0, 0, +imageWidth.value, +imageHeight.value);
         };
         img.src = imageSrc.value;
-    });
-
-    // download the image
-    const downloadImage = $(() => {
-        canvasRef.value?.toBlob(((blob): void  => {
-            if (!blob) {
-                return;
-            }
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "";
-            a.click();
-            URL.revokeObjectURL(url);
-        }));
+        console.log(imageHeight.value);
     });
 
     return (
-        <div class="flex justify-between">
-            <div class="w-full flex flex-col justify-center border border-slate-400 mr-2">
-                <h2 class="text-2xl text-center w-full">
-                    Edit your image here
-                </h2>
-                <div class="flex justify-center mt-2">
-                    <button
-                        preventdefault:click
-                        onClick$={downloadImage}
-                        class="w-fit px-2 text-lg border border-slate-400 hover:bg-slate-600 hover:text-slate-50">
-                        Download
-                    </button>
-                </div>
-            </div>
-            <canvas
-                class="border border-slate-400"
-                ref={canvasRef}
-                width={375}
-                height={300}
-                preventdefault:mouseup
-                onMouseUp$={stopDrawing}
-                preventdefault:mouseout
-                onMouseOut$={stopDrawing}
-                preventdefault:mousemove
-                onMouseMove$={handleDrawing}
-                preventdefault:mousedown
-                onMouseDown$={startDrawing}
-            />
-        </div>
+        <canvas
+            class="border border-slate-400 cursor-crosshair"
+            ref={canvasRef}
+            width={+imageWidth.value}
+            height={+imageHeight.value}
+            preventdefault:mouseup
+            onMouseUp$={stopDrawing}
+            preventdefault:mouseout
+            onMouseOut$={stopDrawing}
+            preventdefault:mousemove
+            onMouseMove$={handleDrawing}
+            preventdefault:mousedown
+            onMouseDown$={startDrawing}
+        />
     );
 });

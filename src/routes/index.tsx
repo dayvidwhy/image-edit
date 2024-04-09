@@ -2,18 +2,28 @@ import { component$, useContextProvider, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { Editor } from "../components/Editor/Editor";
 import { Uploader } from "../components/Uploader/Uploader";
+import { Controls } from "../components/Controls/Controls";
 import { StoreContext } from "../utils/store";
 
 export default component$(() => {
-    const imageSrc = useSignal("");
-    useContextProvider(StoreContext, imageSrc);
+    useContextProvider(StoreContext, {
+        imageSrc: useSignal(""),
+        imageWidth: useSignal(""),
+        imageHeight: useSignal(""),
+        strokeSize: useSignal(10),
+        strokeColor: useSignal("#000"),
+        canvasRef: useSignal()
+    });
     return (
-        <div class="container mx-auto flex flex-col mt-4">
-            <div class="mt-2">
-                <Editor />
-            </div>
-            <div class="mt-2">
+        <div class="flex flex-row h-full">
+            <div class="w-48 mr-2 overflow-y-auto border-r border-slate-400">
+                <Controls />
                 <Uploader />
+            </div>
+            <div class="flex-1 overflow-auto">
+                <div class="mt-2">
+                    <Editor />
+                </div>
             </div>
         </div>
     );

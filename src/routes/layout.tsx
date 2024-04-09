@@ -17,7 +17,7 @@ export default component$(() => {
     return (
         <div class="flex flex-col h-full">
             <Nav />
-            <div class="flex-1">
+            <div class="flex-1 overflow-hidden">
                 <Slot />
             </div>
         </div>
