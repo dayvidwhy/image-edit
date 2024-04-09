@@ -5,6 +5,16 @@ export const Controls = component$(() => {
     const { strokeColor, strokeSize, canvasRef, imageSrc } = useContext(StoreContext);
     const copyCanvasRef = useSignal<HTMLCanvasElement>();
 
+    const grayscaleAmount = useSignal(100);
+    const blurAmount = useSignal(4);
+    const invertAmount = useSignal(100);
+    const contrastAmount = useSignal(200);
+    const darkenAmount = useSignal(0.4);
+    const brightenAmount = useSignal(1.6);
+    const hueAmount = useSignal(90);
+    const sepiaAmount = useSignal(100);
+    const saturateAmount = useSignal(200);
+
     // download the image
     const downloadImage = $(() => {
         canvasRef.value.toBlob(((blob): void  => {
@@ -53,44 +63,76 @@ export const Controls = component$(() => {
 
     const controlButtons = [
         {
-            label: "Reset",
-            action: resetImage
-        },
-        {
             label: "Grayscale",
-            action: $(() => applyEffect("grayscale(100%)"))
+            action: $(() => applyEffect(`grayscale(${grayscaleAmount.value}%)`)),
+            rangeStart: 0,
+            rangeEnd: 100,
+            step: 1,
+            signal: grayscaleAmount
         },
         {
             label: "Blur",
-            action: $(() => applyEffect("blur(4px)"))
+            action: $(() => applyEffect(`blur(${blurAmount.value}px)`)),
+            rangeStart: 0,
+            rangeEnd: 10,
+            step: 1,
+            signal: blurAmount
         },
         {
             label: "Invert",
-            action: $(() => applyEffect("invert(100%)"))
+            action: $(() => applyEffect(`invert(${invertAmount.value}%)`)),
+            rangeStart: 0,
+            rangeEnd: 100,
+            step: 1,
+            signal: invertAmount
         },
         {
             label: "Contrast",
-            action: $(() => applyEffect("contrast(200%)"))
+            action: $(() => applyEffect(`contrast(${contrastAmount.value}%)`)),
+            rangeStart: 0,
+            rangeEnd: 200,
+            step: 1,
+            signal: contrastAmount
         },
         {
             label: "Darken",
-            action: $(() => applyEffect("brightness(0.4)"))
+            action: $(() => applyEffect(`brightness(${darkenAmount.value})`)),
+            rangeStart: 0.2,
+            rangeEnd: 0.6,
+            step: 0.1,
+            signal: darkenAmount
         },
         {
             label: "Brighten",
-            action: $(() => applyEffect("brightness(1.6)"))
+            action: $(() => applyEffect(`brightness(${brightenAmount.value})`)),
+            rangeStart: 1.4,
+            rangeEnd: 1.8,
+            step: 0.1,
+            signal: brightenAmount
         },
         {
             label: "Hue",
-            action: $(() => applyEffect("hue-rotate(90deg)"))
+            action: $(() => applyEffect(`hue-rotate(${hueAmount.value}deg)`)),
+            rangeStart: 0,
+            rangeEnd: 360,
+            step: 1,
+            signal: hueAmount
         },
         {
             label: "Sepia",
-            action: $(() => applyEffect("sepia(100%)"))
+            action: $(() => applyEffect(`sepia(${sepiaAmount.value}%)`)),
+            rangeStart: 0,
+            rangeEnd: 100,
+            step: 1,
+            signal: sepiaAmount
         },
         {
             label: "Saturate",
-            action: $(() => applyEffect("saturate(200%)"))
+            action: $(() => applyEffect(`saturate(${saturateAmount.value}%)`)),
+            rangeStart: 0,
+            rangeEnd: 200,
+            step: 1,
+            signal: saturateAmount
         }
     ];
 
@@ -112,7 +154,7 @@ export const Controls = component$(() => {
                     value={strokeSize.value}
                     onChange$={$((event: Event) => {
                         const target = event.target as HTMLInputElement;
-                        strokeSize.value = parseInt(target.value);
+                        strokeSize.value = parseFloat(target.value);
                     })} />
             </div>
             <div class="flex py-1 border-b border-slate-400">
@@ -132,25 +174,54 @@ export const Controls = component$(() => {
             <h3 class="text-xs mx-1 pt-1">
                 Effects
             </h3>
-            <div class="flex flex-row flex-wrap border-b border-slate-400 pb-1">
+            <div class="flex flex-row flex-wrap border-b border-slate-400 pb-1 mb-1">
                 {controlButtons.map((button, index) => {
                     return (
-                        <div class="w-1/2 px-1 mb-1" key={index}>
-                            <button
-                                preventdefault:click
-                                onClick$={button.action}
-                                class="w-full px-2 text-xs border border-slate-400 hover:bg-slate-600 hover:text-slate-50 transition-all">
-                                {button.label}
-                            </button>
+                        <div class="w-full px-1 mb-1 flex flex-col" key={index}>
+                            <div class="flex justify-between">
+                                <label for={button.label} class="text-xs w-1/2 mx-1">
+                                    {button.label}
+                                </label>
+                                <p class="text-xs mr-14">
+                                    {button.signal.value}
+                                </p>
+                            </div>
+                            <div class="flex flex-row w-full">
+                                <input
+                                    type="range"
+                                    min={button.rangeStart}
+                                    max={button.rangeEnd}
+                                    name={button.label}
+                                    step={button.step}
+                                    value={button.signal.value}
+                                    onChange$={$((event: Event) => {
+                                        const target = event.target as HTMLInputElement;
+                                        button.signal.value = parseFloat(target.value);
+                                    })}
+                                    class="w-2/3 mx-1" />
+                                
+                                <button
+                                    preventdefault:click
+                                    onClick$={button.action}
+                                    class="w-fit px-1 text-xs border border-slate-400 hover:bg-slate-600 hover:text-slate-50 transition-all">
+                                    Apply
+                                </button>
+                            </div>
                         </div>
                     );
                 })}
             </div>
-            <div class="w-full px-1 mt-1">
+            <div class="w-full px-1 mt-1 flex flex-row">
+                <button
+                    preventdefault:click
+                    onClick$={resetImage}
+                    class="w-1/2 px-2 mr-1 text-xs border border-slate-400 hover:bg-slate-600 hover:text-slate-50 transition-all">
+                    Reset
+                </button>
                 <button
                     preventdefault:click
                     onClick$={downloadImage}
-                    class="w-full px-2 text-xs border border-slate-400 hover:bg-slate-600 hover:text-slate-50 transition-all">
+                    class="w-1/2 px-2 ml-1 text-xs border border-slate-400 hover:bg-slate-600 hover:text-slate-50 transition-all">
                     Download
                 </button>
             </div>
