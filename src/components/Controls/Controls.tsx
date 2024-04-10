@@ -9,8 +9,7 @@ export const Controls = component$(() => {
     const blurAmount = useSignal(4);
     const invertAmount = useSignal(100);
     const contrastAmount = useSignal(200);
-    const darkenAmount = useSignal(0.4);
-    const brightenAmount = useSignal(1.6);
+    const brightnessAmount = useSignal(0.4);
     const hueAmount = useSignal(90);
     const sepiaAmount = useSignal(100);
     const saturateAmount = useSignal(200);
@@ -95,20 +94,12 @@ export const Controls = component$(() => {
             signal: contrastAmount
         },
         {
-            label: "Darken",
-            action: $(() => applyEffect(`brightness(${darkenAmount.value})`)),
+            label: "Brightness",
+            action: $(() => applyEffect(`brightness(${brightnessAmount.value})`)),
             rangeStart: 0.2,
-            rangeEnd: 0.6,
-            step: 0.1,
-            signal: darkenAmount
-        },
-        {
-            label: "Brighten",
-            action: $(() => applyEffect(`brightness(${brightenAmount.value})`)),
-            rangeStart: 1.4,
             rangeEnd: 1.8,
             step: 0.1,
-            signal: brightenAmount
+            signal: brightnessAmount
         },
         {
             label: "Hue",
