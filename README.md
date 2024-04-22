@@ -1,5 +1,10 @@
 # Image Edit
 
+![GitHub last commit](https://img.shields.io/github/last-commit/dayvidwhy/image-edit)
+![GitHub issues](https://img.shields.io/github/issues/dayvidwhy/image-edit)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/dayvidwhy/image-edit)
+![GitHub](https://img.shields.io/github/license/dayvidwhy/image-edit)
+
 In browser image editing.
 
 ## Install
